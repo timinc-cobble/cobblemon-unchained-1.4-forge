@@ -6,8 +6,8 @@ plugins {
 }
 
 
-group = "org.example"
-version = "1.0-SNAPSHOT"
+group = property("maven_group")!!
+version = property("mod_version")!!
 
 architectury {
     platformSetupLoomIde()
@@ -17,8 +17,8 @@ architectury {
 loom {
     silentMojangMappingsLicense()
 
-    mixin {
-        defaultRefmapName.set("mixins.${project.name}.refmap.json")
+    forge {
+        mixinConfig("mixins.unchained.json")
     }
 }
 
@@ -28,6 +28,7 @@ repositories {
     maven("https://maven.impactdev.net/repository/development/")
     maven("https://hub.spigotmc.org/nexus/content/groups/public/")
     maven("https://thedarkcolour.github.io/KotlinForForge/")
+    maven("https://api.modrinth.com/maven")
 }
 
 dependencies {
@@ -35,7 +36,9 @@ dependencies {
     mappings(loom.officialMojangMappings())
     forge("net.minecraftforge:forge:1.20.1-47.2.0")
 
-    modImplementation("com.cobblemon:forge:1.4.0+1.20.1-SNAPSHOT")
+//    modImplementation("com.cobblemon:forge:1.4.0+1.20.1-SNAPSHOT")
+    modImplementation(files("libs/Cobblemon-forge-1.4.1+1.20.1-SNAPSHOT.jar"))
+    modImplementation("maven.modrinth:cobblemon-counter:${property("counter_version")}")
     implementation("thedarkcolour:kotlinforforge:4.5.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
