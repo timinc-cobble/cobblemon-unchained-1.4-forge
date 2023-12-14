@@ -4,7 +4,7 @@ license = "MIT"
 
 [[mods]]
 modId = "unchained"
-version = "1.0.0"
+version = "1.4-forge-1.0.0"
 displayName = "Cobblemon Unchained"
 description = '''
 Naturally spawning Hidden Abilities. KOs and/or captures increase nearby shiny rates, and can also give perfect IVs to nearby spawns.
