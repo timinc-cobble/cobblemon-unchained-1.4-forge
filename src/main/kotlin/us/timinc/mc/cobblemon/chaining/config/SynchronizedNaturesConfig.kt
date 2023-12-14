@@ -5,7 +5,7 @@ package us.timinc.mc.cobblemon.chaining.config
 import com.google.gson.GsonBuilder
 import net.minecraft.world.entity.player.Player
 import us.timinc.mc.cobblemon.chaining.Chaining
-import us.timinc.mc.cobblemon.counter.Counter
+import us.timinc.mc.cobblemon.chaining.util.Util
 import java.io.File
 import java.io.FileReader
 import java.io.PrintWriter
@@ -40,22 +40,20 @@ class SynchronizedNaturesConfig {
 
     val percentChance = 0.5
 
-    @Suppress("KotlinConstantConditions")
     fun getPoints(player: Player, species: String): Int {
-        return (Counter.getPlayerKoStreak(
-            player, species
-        ) * koStreakPoints) + (Counter.getPlayerKoCount(
-            player, species
-        ) * koCountPoints) + (Counter.getPlayerCaptureStreak(
-            player, species
-        ) * captureStreakPoints) + (Counter.getPlayerCaptureCount(
-            player, species
-        ) * captureCountPoints) + 1
+        return Util.getPlayerScore(
+            player,
+            species,
+            koStreakPoints,
+            koCountPoints,
+            captureStreakPoints,
+            captureCountPoints
+        ) + 1
     }
 
     class Builder {
         companion object {
-            fun load() : SynchronizedNaturesConfig {
+            fun load(): SynchronizedNaturesConfig {
                 val gson = GsonBuilder()
                     .disableHtmlEscaping()
                     .setPrettyPrinting()

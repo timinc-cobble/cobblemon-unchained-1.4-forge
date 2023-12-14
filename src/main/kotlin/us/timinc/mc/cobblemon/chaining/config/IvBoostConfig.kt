@@ -5,7 +5,7 @@ package us.timinc.mc.cobblemon.chaining.config
 import com.google.gson.GsonBuilder
 import net.minecraft.world.entity.player.Player
 import us.timinc.mc.cobblemon.chaining.Chaining
-import us.timinc.mc.cobblemon.counter.Counter
+import us.timinc.mc.cobblemon.chaining.util.Util
 import java.io.File
 import java.io.FileReader
 import java.io.PrintWriter
@@ -39,17 +39,15 @@ class IvBoostConfig {
     //    @Comment("A list of Pokémon species and form labels to exclusively consider")
     val whitelist = mutableSetOf<String>()
 
-    @Suppress("KotlinConstantConditions")
     fun getPoints(player: Player, species: String): Int {
-        return (Counter.getPlayerKoStreak(
-            player, species
-        ) * koStreakPoints) + (Counter.getPlayerKoCount(
-            player, species
-        ) * koCountPoints) + (Counter.getPlayerCaptureStreak(
-            player, species
-        ) * captureStreakPoints) + (Counter.getPlayerCaptureCount(
-            player, species
-        ) * captureCountPoints)
+        return Util.getPlayerScore(
+            player,
+            species,
+            koStreakPoints,
+            koCountPoints,
+            captureStreakPoints,
+            captureCountPoints
+        )
     }
 
     fun getThreshold(points: Int): Int {
@@ -58,7 +56,7 @@ class IvBoostConfig {
 
     class Builder {
         companion object {
-            fun load() : IvBoostConfig {
+            fun load(): IvBoostConfig {
                 val gson = GsonBuilder()
                     .disableHtmlEscaping()
                     .setPrettyPrinting()
